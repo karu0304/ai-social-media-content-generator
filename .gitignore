@@ -1,0 +1,15 @@
+# Google Apps Script
+.clasp.json
+
+# Environment files
+.env
+.env.*
+
+# API keys and secrets
+secrets/
+*.key
+*.pem
+
+# OS files
+.DS_Store
+Thumbs.db
