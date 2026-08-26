@@ -1,84 +1,134 @@
 # AI Social Media Content Generator
 
-AI-powered Google Sheets automation that uses the Gemini API to transform original content into platform-specific social media content.
+An AI-powered Google Sheets automation that uses the Gemini API to transform original content into platform-specific social media content.
 
-## Project Description
+The system automatically generates LinkedIn posts, X posts, Instagram captions, and catchy titles from a single piece of original content.
 
-The AI Social Media Content Generator allows users to enter original content directly into Google Sheets and automatically generate customized content for different social media platforms.
+---
 
-The system generates:
+## 🚀 Project Overview
 
-- LinkedIn posts
-- X posts
-- Instagram captions
-- Short, engaging titles
+Creating content for multiple social media platforms can be repetitive and time-consuming.
 
-The generated content is automatically written back into the spreadsheet, making the entire workflow simple and repeatable.
+This project automates that process.
 
-## How It Works
+A user enters original content into Google Sheets, and the automation sends the content to Google's Gemini API. Gemini generates customized content for different platforms, and the results are automatically written back into the spreadsheet.
 
-1. User enters original content in Column A.
-2. A Google Apps Script trigger detects the new content.
-3. The script sends the content to the Gemini API.
-4. Gemini generates platform-specific content.
-5. The generated content is automatically written into the spreadsheet.
-6. The Status column tracks the generation process.
+The workflow is designed to reduce repetitive content-writing work while keeping everything inside a familiar Google Sheets interface.
 
-### Workflow
+---
+
+## ✨ Features
+
+- 🤖 AI-powered content generation using Gemini
+- 💼 Professional LinkedIn post generation
+- 𝕏 Short-form X post generation
+- 📸 Instagram caption generation
+- 📝 Automatic title generation
+- ⚡ Automatic generation when new content is entered
+- 📊 Generation status tracking
+- 🔐 Secure API-key storage using Google Apps Script Script Properties
+- 📄 Google Sheets-based interface
+- 🔄 Repeatable content-generation workflow
+
+---
+
+## 🏗️ Architecture
+
+The project follows an event-driven automation workflow:
 
 ```text
-Original Content
-       ↓
-Google Sheets
-       ↓
-Google Apps Script
-       ↓
-Gemini API
-       ↓
-AI-generated content
-       ↓
-┌───────────────┬────────────┬──────────────────┬─────────┐
-│ LinkedIn Post │ X Post     │ Instagram Caption│ Title   │
-└───────────────┴────────────┴──────────────────┴─────────┘
+User enters original content
+            │
+            ▼
+       Google Sheets
+            │
+            ▼
+        onEdit(e)
+            │
+            ▼
+    Google Apps Script
+            │
+            ▼
+       Read Column A
+            │
+            ▼
+        Gemini API
+            │
+            ▼
+    Generate AI Content
+            │
+     ┌──────┼──────┬───────┐
+     ▼      ▼      ▼       ▼
+ LinkedIn   X   Instagram  Title
+     │      │      │       │
+     └──────┴──────┴───────┘
+            │
+            ▼
+     Write results to
+       Google Sheets
+            │
+            ▼
+      Status = Generated
 
-Features
-🤖 AI Content Generation
+🔄 How It Works
+1. Enter Original Content
 
-Uses Google's Gemini API to transform one piece of original content into multiple social media formats.
+The user enters an idea, sentence, or piece of content into Column A.
 
-💼 LinkedIn Content
+Example:
 
-Generates professional and engaging LinkedIn posts designed for business and professional audiences.
+AI automation is helping small businesses save time by handling repetitive tasks.
+2. Trigger Detects the Change
 
-𝕏 X Content
+The Google Apps Script onEdit(e) trigger detects when new content is entered into Column A.
 
-Generates concise posts designed to fit within the character limit.
+The script ignores:
 
-📸 Instagram Content
+The header row
+Empty cells
+Edits outside Column A
+3. Content Generation Starts
 
-Generates friendly captions with relevant hashtags.
-
-📝 Automatic Titles
-
-Creates short and catchy titles for the generated content.
-
-⚡ Automatic Workflow
-
-When new content is entered into Column A, the Google Apps Script trigger automatically starts the generation process.
-
-📊 Status Tracking
-
-The spreadsheet tracks the generation process:
+The script updates the Status column to:
 
 Generating...
+
+The original content is then sent to the Gemini API along with instructions for generating platform-specific content.
+
+4. Gemini Generates the Content
+
+Gemini generates four sections:
+
+LINKEDIN:
+Professional LinkedIn content
+
+
+X:
+Short X post
+
+
+INSTAGRAM:
+Instagram caption with hashtags
+
+
+TITLE:
+Short catchy title
+5. Results Are Parsed
+
+The Apps Script extracts each section from the Gemini response.
+
+6. Results Are Written to the Sheet
+
+The generated content is placed into the corresponding columns.
+
+The Status column is then updated to:
+
 Generated
-Tech Stack
-Google Sheets
-Google Apps Script
-JavaScript
-Gemini API
-Google Apps Script Triggers
-Spreadsheet Structure
+📊 Spreadsheet Structure
+
+The Google Sheet uses the following structure:
+
 Column	Purpose
 A	Original Content
 B	LinkedIn Post
@@ -86,90 +136,266 @@ C	Instagram Caption
 D	X Post
 E	Title
 F	Status
-Setup
+
+Example:
+
+Original Content	LinkedIn Post	Instagram Caption	X Post	Title	Status
+AI automation helps businesses save time	Generated LinkedIn content	Generated Instagram caption	Generated X post	AI Automation for Business	Generated
+🧠 Gemini Prompt Design
+
+The automation provides Gemini with platform-specific instructions.
+
+LinkedIn
+
+The model is instructed to create:
+
+Professional content
+Engaging content
+Approximately 100 words
+X
+
+The model is instructed to create:
+
+Concise content
+Under 280 characters
+Instagram
+
+The model is instructed to create:
+
+Friendly content
+Approximately 80 words
+3 relevant hashtags
+Title
+
+The model is instructed to create:
+
+A short title
+A catchy title
+Maximum 10 words
+
+This allows one original idea to be transformed into multiple formats automatically.
+
+🛠️ Technical Implementation
+Google Apps Script
+
+Google Apps Script handles:
+
+Spreadsheet access
+User input detection
+Gemini API requests
+Response parsing
+Spreadsheet updates
+Status tracking
+Custom Google Sheets menu creation
+Gemini API
+
+The project uses:
+
+gemini-2.5-flash
+
+The Gemini REST API is called using UrlFetchApp.fetch().
+
+The request contains the original content and the content-generation prompt.
+
+Response Processing
+
+The Gemini response is parsed using JavaScript string processing.
+
+The generated response is divided into:
+
+LINKEDIN
+X
+INSTAGRAM
+TITLE
+
+The extracted sections are then written into Columns B–E.
+
+Status Tracking
+
+The automation provides basic process visibility:
+
+Generating...
+
+followed by:
+
+Generated
+
+This makes it easier to identify which rows have completed processing.
+
+🔐 Security
+
+The Gemini API key is not stored directly in the source code.
+
+Instead, the project retrieves the key using Google Apps Script Script Properties:
+
+const apiKey = PropertiesService
+  .getScriptProperties()
+  .getProperty("GEMINI_API_KEY");
+
+The required Script Property is:
+
+GEMINI_API_KEY
+Important
+
+Never commit an actual API key to GitHub.
+
+Do not place keys directly inside:
+
+const apiKey = "YOUR_API_KEY";
+
+If an API key is accidentally exposed publicly, it should be revoked immediately and replaced.
+
+⚙️ Setup
 1. Create a Google Sheet
 
-Create a spreadsheet with the following columns:
+Create a Google Sheet with these columns:
 
 Original Content | LinkedIn Post | Instagram Caption | X Post | Title | Status
 2. Open Apps Script
 
-Go to:
+From Google Sheets:
 
 Extensions → Apps Script
 
-Add the project code to the Apps Script editor.
+Create or open the Apps Script project.
 
-3. Configure Gemini API
+3. Add the Script
 
-Create a Gemini API key and store it securely using Google Apps Script Script Properties.
+Add the project JavaScript code from:
 
-The property should be named:
+Code.gs
+4. Configure the Gemini API Key
 
-GEMINI_API_KEY
+Store the Gemini API key in Google Apps Script Script Properties.
 
-Do not hard-code the API key inside the source code.
-
-4. Authorize the Script
-
-Run the required Apps Script function and grant the requested Google permissions.
-
-5. Configure the Trigger
-
-Create an Apps Script trigger for the spreadsheet edit event so that new content entered into Column A can start the generation workflow.
-
-Usage
-
-Enter a piece of content into Column A.
-
-For example:
-
-AI automation helps small businesses save time by handling repetitive tasks.
-
-The system automatically generates platform-specific content and places the results into the corresponding columns.
-
-Example
-Original Content
-AI automation helps small businesses save time by handling repetitive tasks.
-Generated Content
-
-LinkedIn:
-A professional post explaining how automation can improve productivity.
-
-X:
-A concise version optimized for X.
-
-Instagram:
-A friendly caption with relevant hashtags.
-
-Title:
-A short title related to the topic.
-
-Security
-
-The Gemini API key should never be committed to GitHub.
-
-Store the key using Google Apps Script's Script Properties:
+Property name:
 
 GEMINI_API_KEY
+5. Authorize the Script
 
-If an API key is accidentally exposed, revoke it immediately and generate a new one.
+Run the required function and grant the requested Google permissions.
 
-Future Improvements
+6. Configure the Trigger
 
-Potential future improvements include:
+Create an Apps Script trigger for the spreadsheet edit event.
 
-Multiple content tones
-Audience-specific content generation
-Additional social platforms
+The trigger should execute:
+
+onEdit
+
+when the spreadsheet is edited.
+
+7. Enter Content
+
+Enter original content into Column A.
+
+The automation will generate the social media content automatically.
+
+🖥️ Demo
+
+The project converts a single piece of original content into multiple platform-specific outputs directly inside Google Sheets.
+
+📁 Project Structure
+ai-social-media-content-generator/
+│
+├── Code.gs
+├── README.md
+├── demo.png
+└── .gitignore
+Code.gs
+
+Contains the Google Apps Script implementation, including:
+
+generateContent()
+extractSection()
+onOpen()
+onEdit()
+README.md
+
+Project documentation, setup instructions, architecture, and usage information.
+
+demo.png
+
+Screenshot demonstrating the generated social media content inside Google Sheets.
+
+.gitignore
+
+Helps prevent sensitive or unnecessary files from being committed to the repository.
+
+💡 Example Use Case
+
+A small business owner may enter:
+
+AI automation is helping small businesses save time by handling repetitive tasks.
+
+Instead of manually rewriting the idea for every platform, the automation generates:
+
+LinkedIn Post
+        ↓
+Professional business-focused content
+
+
+X Post
+        ↓
+Short-form social content
+
+
+Instagram Caption
+        ↓
+Friendly caption + hashtags
+
+
+Title
+        ↓
+Short catchy headline
+
+This turns one piece of content into a reusable multi-platform content package.
+
+🎯 Why This Project?
+
+This project demonstrates how AI can be integrated into an everyday business workflow rather than being used only as a standalone chatbot.
+
+It combines:
+
+AI/LLM integration
+REST API integration
+Google Apps Script
+Event-driven automation
+Spreadsheet automation
+Prompt engineering
+Response parsing
+Secure credential management
+🔮 Future Improvements
+
+Potential improvements include:
+
+Multiple writing tones
+Audience-specific content
+Additional social media platforms
 Content scheduling
 AI-generated hashtags
 Content quality scoring
+Duplicate-content detection
 Analytics tracking
 Image generation
-Duplicate-content detection
-Author
+Content approval workflow
+Retry handling for failed API requests
+Batch content generation
+Improved error/status reporting
+📚 Technologies
+Technology	Purpose
+Google Sheets	User interface and data storage
+Google Apps Script	Automation and API integration
+JavaScript	Application logic
+Gemini API	AI content generation
+Apps Script Triggers	Event-driven automation
+👩‍💻 Author
 
 G.K. Karunya
 
-Built as an AI automation project using Google Apps Script, Google Sheets, and Gemini.
+Built as an AI automation project using Google Sheets, Google Apps Script, JavaScript, and the Gemini API.
+
+📄 License
+
+This project is available for educational and portfolio purposes.
+
