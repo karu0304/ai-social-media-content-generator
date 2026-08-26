@@ -395,7 +395,4 @@ G.K. Karunya
 
 Built as an AI automation project using Google Sheets, Google Apps Script, JavaScript, and the Gemini API.
 
-📄 License
-
-This project is available for educational and portfolio purposes.
 
